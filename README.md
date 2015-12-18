@@ -5,7 +5,7 @@ The main stack I use every day: node, go, erlang, bash, docker, ansible
 
 ### Screenshots
 
-![preview](https://raw.github.com/undassa/vim4devops/master/screenshots/vim.png)
+![preview](https://raw.github.com/undassa/vimops/master/screenshots/vim.png)
 
 ## Installation
 

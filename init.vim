@@ -1,3 +1,5 @@
+let mapleader=","
+
 set showcmd             " Show (partial) command in status line.
 set showmatch           " Show matching brackets.
 set showmode            " Show current mode.
@@ -22,21 +24,25 @@ set splitright          " Vertical split to right of current.
 if !&scrolloff
   set scrolloff=3       " Show next 3 lines while scrolling.
 endif
+
 if !&sidescrolloff
   set sidescrolloff=5   " Show next 5 columns while side-scrolling.
 endif
+
 set display+=lastline
 set nostartofline       " Do not jump to first character with page commands.
 
+" set swapfiles directory
+set directory=$HOME/.vim/swapfiles//
+
+" encoding dectection
+set fileencodings=utf-8,gb2312,gb18030,gbk,ucs-bom,cp936,latin1
 
 call plug#begin('~/.vim/plugged')
 
 " Make sure you use single quotes
 Plug 'junegunn/seoul256.vim'
 Plug 'junegunn/vim-easy-align'
-
-" Group dependencies, vim-snippets depends on ultisnips
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
 
 " On-demand loading
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
@@ -57,63 +63,103 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 " Unmanaged plugin (manually installed and updated)
 Plug '~/my-prototype-plugin'
 
+"------------------
+" Code Completions
+"------------------
+Plug 'Shougo/neocomplcache'
+Plug 'mattn/emmet-vim'
+Plug 'Raimondi/delimitMate'
+Plug 'ervandew/supertab'
+" snippets
+Plug 'garbas/vim-snipmate'
+Plug 'honza/vim-snippets'
+
+"------ snipmate dependencies -------
+Plug 'MarcWeber/vim-addon-mw-utils'
+Plug 'tomtom/tlib_vim'
+
+"-----------------
+" Fast navigation
+"-----------------
+Plug 'edsono/vim-matchit'
+Plug 'Lokaltog/vim-easymotion'
+
+"--------------
+" Fast editing
+"--------------
+Plug 'tpope/vim-surround'
+Plug 'scrooloose/nerdcommenter'
+Plug 'sjl/gundo.vim'
+Plug 'nathanaelkane/vim-indent-guides'
+
+"--------------
+"" IDE features
+"--------------
+Plug 'scrooloose/nerdtree'
+Plug 'jistr/vim-nerdtree-tabs'
+Plug 'majutsushi/tagbar'
+Plug 'mileszs/ack.vim'
+Plug 'kien/ctrlp.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'Lokaltog/vim-powerline'
+Plug 'scrooloose/syntastic'
+Plug 'bronson/vim-trailing-whitespace'
+Plug 'Tabular'
+Plug 'airblade/vim-gitgutter'
+"-------------
+" Other Utils
+"-------------
+Plug 'nvie/vim-togglemouse'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'bling/vim-airline'
+"----------------------------------------
+" Syntax/Indent for language enhancement
+"----------------------------------------
+"------- web backend ---------
+Plug '2072/PHP-Indenting-for-VIm'
+Plug 'lepture/vim-jinja'
+Plug 'moll/vim-node'
+Plug 'jelera/vim-javascript-syntax'
+
+"------- web frontend ----------
+Plug 'othree/html5.vim'
+Plug 'pangloss/vim-javascript'
+Plug 'elzr/vim-json'
+Plug 'kchmck/vim-coffee-script'
+Plug 'nono/jquery.vim'
+
+"------- markup language -------
+Plug 'tpope/vim-markdown'
+
+"------- Go ----------
+Plug 'fatih/vim-go'
+
+"------- FPs ------
+Plug 'kien/rainbow_parentheses.vim'
+
+"------- Docker ------"
+Plug 'ekalinin/Dockerfile.vim'
+
+"------- Erlang ------"
+Plug 'vimerl'
+
+"--------------
+" Color Schemes
+"--------------
+
 " Add plugins to &runtimepath
 call plug#end()
-
-
-
-source ~/.vim/bundles.vim
-let mapleader = ','
-
-" set swapfiles directory
-set directory=$HOME/.vim/swapfiles//
-
-" encoding dectection
-set fileencodings=utf-8,gb2312,gb18030,gbk,ucs-bom,cp936,latin1
-
-" enable filetype dectection and ft specific plugin/indent
-filetype plugin indent on
-
-" enable syntax hightlight and completion
-syntax on
 
 "--------
 " Vim UI
 "--------
 " color scheme
 set background=dark
-color fisa
 
 " highlight current line
 au WinLeave * set nocursorline
 au WinEnter * set cursorline
 set cursorline
-
-" search
-set incsearch
-"set highlight 	" conflict with highlight current line
-set ignorecase
-set smartcase
-
-" editor settings
-set history=1000
-set nocompatible
-set nofoldenable                                                  " disable folding"
-set confirm                                                       " prompt when existing from an unsaved file
-set backspace=indent,eol,start                                    " More powerful backspacing
-set t_Co=256                                                      " Explicitly tell vim that the terminal has 256 colors "
-set mouse=a                                                       " use mouse in all modes
-set report=0                                                      " always report number of lines changed                "
-set nowrap                                                        " dont wrap lines
-set scrolloff=5                                                   " 5 lines above/below cursor when scrolling
-set number                                                        " show line numbers
-set showmatch                                                     " show matching bracket (briefly jump)
-set showcmd                                                       " show typed command in status bar
-set title                                                         " show file in titlebar
-set laststatus=2                                                  " use 2 lines for the status bar
-set matchtime=2                                                   " show matching bracket for 0.2 seconds
-set matchpairs+=<:>                                               " specially for html
-" set relativenumber
 
 " Default Indentation
 set autoindent
@@ -121,8 +167,6 @@ set smartindent     " indent when
 set tabstop=2       " tab width
 set softtabstop=2   " backspace
 set shiftwidth=2    " indent width
-" set textwidth=79
-" set smarttab
 set expandtab       " expand tab to space
 
 autocmd FileType php setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=120
@@ -139,6 +183,7 @@ autocmd Syntax javascript set syntax=jquery   " JQuery syntax support
 let g:html_indent_inctags = "html,body,head,tbody"
 let g:html_indent_script1 = "inc"
 let g:html_indent_style1 = "inc"
+
 
 "-----------------
 " Plugin settings
@@ -183,37 +228,70 @@ let g:tagbar_width=30
 let g:tagbar_autofocus = 1
 let g:tagbar_sort = 0
 let g:tagbar_compact = 1
-" tag for coffee
-if executable('coffeetags')
-  let g:tagbar_type_coffee = {
-        \ 'ctagsbin' : 'coffeetags',
-        \ 'ctagsargs' : '',
-        \ 'kinds' : [
-        \ 'f:functions',
-        \ 'o:object',
-        \ ],
-        \ 'sro' : ".",
-        \ 'kind2scope' : {
-        \ 'f' : 'object',
-        \ 'o' : 'object',
-        \ }
-        \ }
 
-  let g:tagbar_type_markdown = {
-    \ 'ctagstype' : 'markdown',
-    \ 'sort' : 0,
-    \ 'kinds' : [
-        \ 'h:sections'
-    \ ]
-    \ }
+" Tell Vim which characters to show for expanded TABs,
+" trailing whitespace, and end-of-lines. VERY useful!
+if &listchars ==# 'eol:$'
+  set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
 endif
+set list                " Show problematic characters.
+
+" Also highlight all tabs and trailing whitespace characters.
+highlight ExtraWhitespace ctermbg=darkgreen guibg=darkgreen
+match ExtraWhitespace /\s\+$\|\t/
+
+set hlsearch            " Highlight search results.
+set ignorecase          " Make searching case insensitive
+set smartcase           " ... unless the query has capital letters.
+set incsearch           " Incremental search.
+set gdefault            " Use 'g' flag by default with :s/foo/bar/.
+set magic               " Use 'magic' patterns (extended regular expressions).
+
+" Use <C-L> to clear the highlighting of :set hlsearch.
+" if maparg('<C-L>', 'n') ==# ''
+"  nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
+" endif
+
+" Relative numbering
+fu! NumberToggle()
+  if(&relativenumber == 1)
+    set nornu
+    set number
+  else
+    set rnu
+  endif
+endf
+
+" Toggle between normal and relative numbering.
+nnoremap <leader>r :call NumberToggle()<cr>
+
+
+" CTRL-P plugin remap
+" Open file menu
+nnoremap <Leader>o :CtrlP<CR>
+" Open buffer menu
+nnoremap <Leader>b :CtrlPBuffer<CR>
+" Open most recently used files
+nnoremap <Leader>f :CtrlPMRUFiles<CR>
+
+let g:airline#extensions#tabline#enabled = 2
+let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#right_sep = ' '
+let g:airline#extensions#tabline#right_alt_sep = '|'
+let g:airline_left_sep = ' '
+let g:airline_left_alt_sep = '|'
+let g:airline_right_sep = ' '
+let g:airline_right_alt_sep = '|'
+let g:airline_theme= 'serene'
+
 
 " Nerd Tree
 let NERDChristmasTree=0
 let NERDTreeWinSize=30
 let NERDTreeChDirMode=2
-let NERDTreeIgnore=['\~$', '\.pyc$', '\.swp$', 'node-modules', '\.git']
-" let NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$',  '\~$']
+let NERDTreeIgnore=['\~$', '\.pyc$', '\.swp$', 'node-modules', '\.git', '\.idea']
 let NERDTreeShowBookmarks=1
 let NERDTreeWinPos = "right"
 let NERDTreeShowHidden=1
@@ -226,14 +304,9 @@ let NERDCompactSexyComs=1
 " ZenCoding
 let g:user_emmet_expandabbr_key='<C-j>'
 
-" powerline
-"let g:Powerline_symbols = 'fancy'
-
 " NeoComplCache
 let g:neocomplcache_enable_at_startup=1
 let g:neoComplcache_disableautocomplete=1
-"let g:neocomplcache_enable_underbar_completion = 1
-"let g:neocomplcache_enable_camel_case_completion = 1
 let g:neocomplcache_enable_smart_case=1
 let g:neocomplcache_min_syntax_length = 3
 let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
@@ -250,18 +323,20 @@ autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType c setlocal omnifunc=ccomplete#Complete
+
 if !exists('g:neocomplcache_omni_patterns')
   let g:neocomplcache_omni_patterns = {}
 endif
+
 let g:neocomplcache_omni_patterns.erlang = '[a-zA-Z]\|:'
 
 " SuperTab
-" let g:SuperTabDefultCompletionType='context'
 let g:SuperTabDefaultCompletionType = '<C-X><C-U>'
 let g:SuperTabRetainCompletionType=2
 
 " ctrlp
-set wildignore+=*/tmp/*,*.so,*.o,*.a,*.obj,*.swp,*.zip,*.pyc,*.pyo,*.class,.DS_Store  " MacOSX/Linux
+set wildignore+=*/tmp/*,*.so,*.o,*.a,*.obj,*.swp,*.zip,*.pyc,*.pyo,*.class,.DS_Store
+" MacOSX/Linux
 let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
 
 " Keybindings for plugin toggle
@@ -279,31 +354,25 @@ nnoremap <leader>v V`]
 " Useful Functions
 "------------------
 " easier navigation between split windows
-nnoremap <c-j> <c-w>j
-nnoremap <c-k> <c-w>k
-nnoremap <c-h> <c-w>h
-nnoremap <c-l> <c-w>l
+nnoremap <C-J> <C-W>j
+nnoremap <C-K> <C-W>k
+nnoremap <C-H> <C-W>h
+nnoremap <C-L> <C-W>l
 
 " When editing a file, always jump to the last cursor position
 autocmd BufReadPost *
-      \ if ! exists("g:leave_my_cursor_position_alone") |
-      \     if line("'\"") > 0 && line ("'\"") <= line("$") |
-      \         exe "normal g'\"" |
-      \     endif |
-      \ endif
+    \ if ! exists("g:leave_my_cursor_position_alone") |
+    \     if line("'\"") > 0 && line ("'\"") <= line("$") |
+    \         exe "normal g'\"" |
+    \     endif |
+    \ endif
 
 " w!! to sudo & write a file
-cmap w!! %!sudo tee >/dev/null %
+nmap w!! %!sudo tee >/dev/null %
 
 " Quickly edit/reload the vimrc file
 nmap <silent> <leader>ev :e $MYVIMRC<CR>
 nmap <silent> <leader>sv :so $MYVIMRC<CR>
-
-" sublime key bindings
-nmap <D-]> >>
-nmap <D-[> <<
-vmap <D-[> <gv
-vmap <D-]> >gv
 
 " eggcache vim
 nnoremap ; :
@@ -314,35 +383,13 @@ nnoremap ; :
 :command Qa qa
 :command QA qa
 
-" for macvim
-if has("gui_running")
-    set go=aAce  " remove toolbar
-    "set transparency=30
-    set guifont=Monaco:h13
-    set showtabline=2
-    set columns=140
-    set lines=40
-    noremap <D-M-Left> :tabprevious<cr>
-    noremap <D-M-Right> :tabnext<cr>
-    map <D-1> 1gt
-    map <D-2> 2gt
-    map <D-3> 3gt
-    map <D-4> 4gt
-    map <D-5> 5gt
-    map <D-6> 6gt
-    map <D-7> 7gt map <D-8> 8gt
-    map <D-9> 9gt
-    map <D-0> :tablast<CR>
-endif
-
-
 " better folding {
-fu! ImproovedFoldText()
-  "get first non-blank line
-  let fs = v:foldstart
-  while getline(fs) =~ '^\s*$' | let fs = nextnonblank(fs + 1)
-  endwhile
-  if fs > v:foldend
+fu! ImproovedFoText()
+  "get first noblank line
+  let fs = v:ldstart
+  while getne(fs) =~ '^\s*$' | let fs = nextnonblank(fs + 1)
+  endwhi
+  if  > v:foldend
     let line = getline(v:foldstart)
   else
     let line = substitute(getline(fs), '\t', repeat(' ', &tabstop), 'g')
@@ -358,7 +405,8 @@ fu! ImproovedFoldText()
   return line . expansionString . foldSizeStr . foldPercentage . foldLevelStr
 endf
 " }
-set foldtext=ImproovedFoldText()
+
+"set foldtext=ImproovedFoldText()
 
 nnoremap <silent> <leader>gs :Gstatus<CR>
 nnoremap <silent> <leader>gd :Gdiff<CR>
@@ -373,12 +421,11 @@ nnoremap <silent> <leader>ge :Gedit<CR>
 nnoremap <silent> <leader>gi :Git add -p %<CR>
 nnoremap <silent> <leader>gg :SignifyToggle<CR>
 
-map <C-J> <C-W>j<C-W>_
-map <C-K> <C-W>k<C-W>_
-map <C-L> <C-W>l<C-W>_
-map <C-H> <C-W>h<C-W>_
-map <S-H> gT
-map <S-L> gt
+map <silent> <S-H> :bprevious<CR>
+map <silent> <S-L> :bnext<CR>
+map <silent> <S-Q> :bp <BAR> bd #<CR>
+map <silent> <C-O> :CtrlPBuffer<CR>
+
 
 set nowrap                      " Do not wrap long lines
 set autoindent                  " Indent at the same level of the previous line
@@ -391,39 +438,55 @@ set splitright                  " Puts new vsplit windows to the right of the cu
 set splitbelow                  " Puts new split windows to the bottom of the current)"
 
 set autoread
-colorscheme hybrid 
-" TagBar {
-	if isdirectory(expand("~/.vim/bundle/tagbar/"))
-		nnoremap <silent> <leader>tt :TagbarToggle<CR>
-	endif
-"}
-" Tabularize {
+colorscheme hybrid
+
+if isdirectory(expand("~/.vim/bundle/tagbar/"))
+  nnoremap <silent> <leader>tt :TagbarToggle<CR>
+endif
+
 if isdirectory(expand("~/.vim/bundle/tabular"))
-	nmap <Leader>a& :Tabularize /&<CR>
-	vmap <Leader>a& :Tabularize /&<CR>
-	nmap <Leader>a= :Tabularize /^[^=]*\zs=<CR>
-	vmap <Leader>a= :Tabularize /^[^=]*\zs=<CR>
-	nmap <Leader>a=> :Tabularize /=><CR>
-	vmap <Leader>a=> :Tabularize /=><CR>
-	nmap <Leader>a: :Tabularize /:<CR>
-	vmap <Leader>a: :Tabularize /:<CR>
-	nmap <Leader>a:: :Tabularize /:\zs<CR>
-	vmap <Leader>a:: :Tabularize /:\zs<CR>
-	nmap <Leader>a, :Tabularize /,<CR>
-	vmap <Leader>a, :Tabularize /,<CR>
-	nmap <Leader>a,, :Tabularize /,\zs<CR>
-	vmap <Leader>a,, :Tabularize /,\zs<CR>
-	nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
-	vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
-endif
-" }
-
-if isdirectory(expand("~/.vim/bundle/vim-tmux-navigator/"))
-  nnoremap <silent> {Left-mapping} :TmuxNavigateLeft<cr>
-  nnoremap <silent> {Down-Mapping} :TmuxNavigateDown<cr>
-  nnoremap <silent> {Up-Mapping} :TmuxNavigateUp<cr>
-  nnoremap <silent> {Right-Mapping} :TmuxNavigateRight<cr>
-  nnoremap <silent> {Previous-Mapping} :TmuxNavigatePrevious<cr>
+  nmap <Leader>a& :Tabularize /&<CR>
+  vmap <Leader>a& :Tabularize /&<CR>
+  nmap <Leader>a= :Tabularize /^[^=]*\zs=<CR>
+  vmap <Leader>a= :Tabularize /^[^=]*\zs=<CR>
+  nmap <Leader>a=> :Tabularize /=><CR>
+  vmap <Leader>a=> :Tabularize /=><CR>
+  nmap <Leader>a: :Tabularize /:<CR>
+  vmap <Leader>a: :Tabularize /:<CR>
+  nmap <Leader>a:: :Tabularize /:\zs<CR>
+  vmap <Leader>a:: :Tabularize /:\zs<CR>
+  nmap <Leader>a, :Tabularize /,<CR>
+  vmap <Leader>a, :Tabularize /,<CR>
+  nmap <Leader>a,, :Tabularize /,\zs<CR>
+  vmap <Leader>a,, :Tabularize /,\zs<CR>
+  nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+  vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
 endif
 
-au FileType javascript call JavaScriptFold()
+"au FileType javascript call JavaScriptFold()
+
+" Javascript {{{
+" JS syntax, supports ES6
+Plug 'othree/yajs.vim', {
+\   'for': ['javascript']
+\ }
+" Better indentation
+Plug 'gavocanov/vim-js-indent', {
+\   'for': ['javascript']
+\ }
+" JS syntax for common libraries
+Plug 'othree/javascript-libraries-syntax.vim', {
+\   'for': ['javascript']
+\ }
+" Tern auto-completion engine for JS (requires node/npm)
+if executable('node')
+  Plug 'marijnh/tern_for_vim', {
+\     'do': 'npm install',
+\     'for': ['javascript', 'coffee']
+\   }
+endif
+" Makes gf work on node require statements
+Plug 'moll/vim-node', {
+\   'for': ['javascript']
+\ }
+" }}}
