@@ -15,6 +15,8 @@ set esckeys             " Cursor keys in insert mode.
 set linespace=0         " Set line-spacing to minimum.
 set nojoinspaces        " Prevents inserting two spaces after punctuation on a join (J)
 
+set foldmethod=indent
+
 " More natural splits
 set splitbelow          " Horizontal split below current.
 set splitright          " Vertical split to right of current.
@@ -358,6 +360,7 @@ fu! ImproovedFoldText()
   return line . expansionString . foldSizeStr . foldPercentage . foldLevelStr
 endf
 " }
+
 set foldtext=ImproovedFoldText()
 
 nnoremap <silent> <leader>gs :Gstatus<CR>

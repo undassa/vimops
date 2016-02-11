@@ -18,16 +18,19 @@ set esckeys             " Cursor keys in insert mode.
 set linespace=0         " Set line-spacing to minimum.
 set nojoinspaces        " Prevents inserting two spaces after punctuation on a join (J)
 
+set nowrap                      " Do not wrap long lines
+set autoindent                  " Indent at the same level of the previous line
+
 " More natural splits
 set splitbelow          " Horizontal split below current.
 set splitright          " Vertical split to right of current.
 
 if !&scrolloff
-  set scrolloff=3       " Show next 3 lines while scrolling.
+  set scrolloff=1       " Show next 3 lines while scrolling.
 endif
 
 if !&sidescrolloff
-  set sidescrolloff=5   " Show next 5 columns while side-scrolling.
+  set sidescrolloff=1   " Show next 5 columns while side-scrolling.
 endif
 
 set display+=lastline
@@ -137,8 +140,6 @@ Plug 'bling/vim-airline'
 " Syntax/Indent for language enhancement
 "----------------------------------------
 "------- web backend ---------
-Plug '2072/PHP-Indenting-for-VIm'
-Plug 'lepture/vim-jinja'
 Plug 'moll/vim-node'
 Plug 'jelera/vim-javascript-syntax'
 
@@ -146,8 +147,6 @@ Plug 'jelera/vim-javascript-syntax'
 Plug 'othree/html5.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'elzr/vim-json'
-Plug 'kchmck/vim-coffee-script'
-Plug 'nono/jquery.vim'
 
 "------- markup language -------
 Plug 'tpope/vim-markdown'
@@ -160,9 +159,6 @@ Plug 'kien/rainbow_parentheses.vim'
 
 "------- Docker ------"
 Plug 'ekalinin/Dockerfile.vim'
-
-"------- Erlang ------"
-Plug 'vimerl'
 
 "--------------
 " Color Schemes
@@ -197,13 +193,6 @@ autocmd FileType coffee,javascript setlocal tabstop=2 shiftwidth=2 softtabstop=2
 autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 textwidth=120
 autocmd FileType html,htmldjango,xhtml,haml setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=0
 autocmd FileType sass,scss,css setlocal tabstop=2 shiftwidth=2 softtabstop=2 textwidth=120
-
-" syntax support
-autocmd Syntax javascript set syntax=jquery   " JQuery syntax support
-" js
-let g:html_indent_inctags = "html,body,head,tbody"
-let g:html_indent_script1 = "inc"
-let g:html_indent_style1 = "inc"
 
 
 "-----------------
@@ -345,12 +334,6 @@ autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType c setlocal omnifunc=ccomplete#Complete
 
-if !exists('g:neocomplcache_omni_patterns')
-  let g:neocomplcache_omni_patterns = {}
-endif
-
-let g:neocomplcache_omni_patterns.erlang = '[a-zA-Z]\|:'
-
 " SuperTab
 let g:SuperTabDefaultCompletionType = '<C-X><C-U>'
 let g:SuperTabRetainCompletionType=2
@@ -427,7 +410,7 @@ fu! ImproovedFoText()
 endf
 " }
 
-"set foldtext=ImproovedFoldText()
+set foldtext=ImproovedFoldText()
 
 nnoremap <silent> <leader>gs :Gstatus<CR>
 nnoremap <silent> <leader>gd :Gdiff<CR>
@@ -446,17 +429,6 @@ map <silent> <S-H> :bprevious<CR>
 map <silent> <S-L> :bnext<CR>
 map <silent> <S-Q> :bp <BAR> bd #<CR>
 map <silent> <C-O> :CtrlPBuffer<CR>
-
-
-set nowrap                      " Do not wrap long lines
-set autoindent                  " Indent at the same level of the previous line
-set shiftwidth=2                " Use indents of 2 spaces
-set expandtab                   " Tabs are spaces, not tabs
-set tabstop=2                   " An indentation every four columns
-set softtabstop=2               " Let backspace delete indent
-set nojoinspaces                " Prevents inserting two spaces after punctuation on a join (J)
-set splitright                  " Puts new vsplit windows to the right of the current
-set splitbelow                  " Puts new split windows to the bottom of the current)"
 
 set autoread
 colorscheme hybrid
@@ -483,31 +455,3 @@ if isdirectory(expand("~/.vim/bundle/tabular"))
   nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
   vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
 endif
-
-"au FileType javascript call JavaScriptFold()
-
-" Javascript {{{
-" JS syntax, supports ES6
-Plug 'othree/yajs.vim', {
-\   'for': ['javascript']
-\ }
-" Better indentation
-Plug 'gavocanov/vim-js-indent', {
-\   'for': ['javascript']
-\ }
-" JS syntax for common libraries
-Plug 'othree/javascript-libraries-syntax.vim', {
-\   'for': ['javascript']
-\ }
-" Tern auto-completion engine for JS (requires node/npm)
-if executable('node')
-  Plug 'marijnh/tern_for_vim', {
-\     'do': 'npm install',
-\     'for': ['javascript', 'coffee']
-\   }
-endif
-" Makes gf work on node require statements
-Plug 'moll/vim-node', {
-\   'for': ['javascript']
-\ }
-" }}}
