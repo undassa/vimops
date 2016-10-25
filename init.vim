@@ -130,12 +130,15 @@ Plug 'scrooloose/syntastic'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'Tabular'
 Plug 'airblade/vim-gitgutter'
+
 "-------------
 " Other Utils
 "-------------
 Plug 'nvie/vim-togglemouse'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
 "----------------------------------------
 " Syntax/Indent for language enhancement
 "----------------------------------------
@@ -303,7 +306,7 @@ let NERDTreeWinSize=30
 let NERDTreeChDirMode=2
 let NERDTreeIgnore=['\~$', '\.pyc$', '\.swp$', 'node-modules', '\.git', '\.idea']
 let NERDTreeShowBookmarks=1
-let NERDTreeWinPos = "right"
+let NERDTreeWinPos = "left"
 let NERDTreeShowHidden=1
 
 " nerdcommenter
