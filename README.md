@@ -225,4 +225,4 @@ Other configurations are also well organized in vimrc.
 
 ## Known issues
 
-Say me please if you find some
+Say me please if you find some one
